@@ -9,7 +9,7 @@ for frontend :
 
 
 for backend:
-1.open the another terminal
-2."cd backend"
-3."npm install nodemon"
-4."npm run dev"
+1. open the another terminal
+2. "cd backend"
+3. "npm install nodemon"
+4. "npm run dev"
