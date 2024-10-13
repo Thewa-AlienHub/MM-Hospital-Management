@@ -13,9 +13,7 @@ import ScrollToTop_02 from "./components/ScrollToTop_02";
 import Team from "./pages/Team";
 import Contact from "./pages/Contact";
 import SignInQR from "./pages/IT22602978_Pages/SignInQR_03";
-
-
-
+import Medications_04 from "./pages/IT22603418_Pages/Medications_04";
 
 function App() {
   return (
@@ -39,10 +37,7 @@ function App() {
            
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
-            {/* <Route path='/create_04' element={<RequestLeave_04/>}/>
-              <Route path='/delete_04' element={<RequestDetails_04/>}/> */}
-           
-            
+            <Route path="medications/:patientId" element={<Medications_04 />} />
           </Routes>
         </div>
 

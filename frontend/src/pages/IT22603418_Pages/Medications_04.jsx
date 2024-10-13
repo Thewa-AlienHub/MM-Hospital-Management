@@ -1,18 +1,49 @@
-import React, { useState } from "react";
-import { Button, Select } from "flowbite-react";
+import React, { useState, useEffect } from "react";
+import { Button, Select, TextInput } from "flowbite-react";
+import { useParams, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const Medications_04 = () => {
-  // State for medications
+const Medications_04 = ({ loggedInUser }) => {
+  const { patientId } = useParams();
+  const location = useLocation();
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [medications, setMedications] = useState([]);
   const [selectedMedication, setSelectedMedication] = useState("");
   const [selectedDosage, setSelectedDosage] = useState("");
   const [selectedFrequency, setSelectedFrequency] = useState("");
+  const [illness, setIllness] = useState("");
 
-  // Dummy data for dropdowns
+  // State for patient's name
+  const [patientName, setPatientName] = useState("");
+
+  // Fetch patient's name based on patientId
+  useEffect(() => {
+    const fetchPatientName = async () => {
+      if (!patientId) {
+        console.error("Patient ID is undefined");
+        return; // Early return if patientId is not available
+      }
+
+      try {
+        const response = await fetch(`/api/patient/${patientId}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch patient name");
+        }
+        const data = await response.json();
+        setPatientName(data.basicInfo.name); // Assuming the patient name is in the 'name' field
+      } catch (error) {
+        console.error("Error fetching patient name:", error);
+      }
+    };
+
+    fetchPatientName();
+  }, [patientId]);
+
   const medicationOptions = [
     "Metformin",
     "Lisinopril",
     "Atorvastatin",
+    "Panadol",
     "Amlodipine",
     "Levothyroxine",
     "Simvastatin",
@@ -65,15 +96,54 @@ const Medications_04 = () => {
     }
   };
 
-  return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-xl font-bold mb-4">Add Medications</h2>
+  // Handler to submit the medications and illness
+  const handleSubmit = async () => {
+    if (illness && medications.length > 0) {
+      const historyData = {
+        patientId: patientId, // Use patientId from params
+        doctorId: currentUser._id, // Assuming the current user's ID is the doctor's ID
+        doctorName: currentUser.username,
+        disease: [illness], // Store illness as an array
+        medications: medications,
+      };
 
-      <div className="mb-4">
+      try {
+        const response = await fetch(`/api/patient-history/add`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(historyData),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to submit patient history");
+        }
+
+        const data = await response.json();
+        console.log("Patient history submitted successfully:", data);
+        // Optionally reset state or show a success message
+        setMedications([]);
+        setIllness("");
+      } catch (error) {
+        console.error("Error submitting patient history:", error);
+      }
+    } else {
+      alert("Please fill in all required fields before submitting.");
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-3xl shadow-md max-w-lg mx-auto p-3 w-full mt-5">
+      <h2 className="text-xl font-bold mb-4 text-center">
+        Medications for : {patientName} <br />
+        Doctor Name : {currentUser.username}
+      </h2>
+      <div>
+        <label className="block mb-2">Medication:</label>
         <Select
-          value={selectedMedication}
           onChange={(e) => setSelectedMedication(e.target.value)}
-          className="w-full mb-2"
+          value={selectedMedication}
         >
           <option value="" disabled>
             Select Medication
@@ -84,11 +154,13 @@ const Medications_04 = () => {
             </option>
           ))}
         </Select>
+      </div>
 
+      <div className="mt-4">
+        <label className="block mb-2">Dosage:</label>
         <Select
-          value={selectedDosage}
           onChange={(e) => setSelectedDosage(e.target.value)}
-          className="w-full mb-2"
+          value={selectedDosage}
         >
           <option value="" disabled>
             Select Dosage
@@ -99,11 +171,13 @@ const Medications_04 = () => {
             </option>
           ))}
         </Select>
+      </div>
 
+      <div className="mt-4">
+        <label className="block mb-2">Frequency:</label>
         <Select
-          value={selectedFrequency}
           onChange={(e) => setSelectedFrequency(e.target.value)}
-          className="w-full mb-4"
+          value={selectedFrequency}
         >
           <option value="" disabled>
             Select Frequency
@@ -114,28 +188,41 @@ const Medications_04 = () => {
             </option>
           ))}
         </Select>
-
-        <Button
-          onClick={handleAddMedication}
-          className="w-full bg-blue-950 rounded-full"
-        >
-          Add Medication
-        </Button>
       </div>
 
-      {/* Displaying Added Medications */}
-      <h3 className="text-lg font-semibold mb-2">Added Medications:</h3>
-      {medications.length > 0 ? (
-        medications.map((medication, index) => (
-          <div key={index} className="mb-2 p-2 border rounded-md">
-            <p>Name: {medication.name}</p>
-            <p>Dosage: {medication.dosage}</p>
-            <p>Frequency: {medication.frequency}</p>
-          </div>
-        ))
-      ) : (
-        <p>No medications added yet.</p>
-      )}
+      <div className="mt-4">
+        <label className="block mb-2">Illness:</label>
+        <TextInput
+          onChange={(e) => setIllness(e.target.value)}
+          value={illness}
+          placeholder="Enter the patient's illness"
+        />
+      </div>
+
+      <Button
+        onClick={handleAddMedication}
+        className="mt-4 w-full bg-blue-950 rounded-full"
+      >
+        Add Medication
+      </Button>
+
+      <div className="mt-4">
+        <h3 className="text-lg font-bold">Current Medications</h3>
+        <ul>
+          {medications.map((med, index) => (
+            <li key={index}>
+              {med.name} - {med.dosage} ({med.frequency})
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <Button
+        onClick={handleSubmit}
+        className="mt-4 w-full bg-green-500 rounded-full"
+      >
+        Submit Patient History
+      </Button>
     </div>
   );
 };

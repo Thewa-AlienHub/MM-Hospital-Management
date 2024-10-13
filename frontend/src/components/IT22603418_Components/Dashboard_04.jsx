@@ -6,6 +6,7 @@ import { Button } from "flowbite-react";
 
 const Dashboard_04 = () => {
   const [activeTab, setActiveTab] = useState("scanQR");
+  const [scannedData, setScannedData] = useState(null); // Maintain scanned data state
 
   const handleScanQRButtonClick = () => setActiveTab("scanQR");
   const handleLabTestButtonClick = () => setActiveTab("labTest");
@@ -27,7 +28,7 @@ const Dashboard_04 = () => {
             >
               Scan QR
             </Button>
-            <Button
+            {/* <Button
               gradientDuoTone={
                 activeTab === "labTest"
                   ? "bg-white text-blue-950"
@@ -46,7 +47,7 @@ const Dashboard_04 = () => {
               gradientDuoTone={
                 activeTab === "medications"
                   ? "bg-white text-blue-950"
-                  : "text - white"
+                  : "text-white"
               }
               className={`w-96 items-center focus:outline-none text-lg rounded-3xl ${
                 activeTab === "medications"
@@ -56,13 +57,19 @@ const Dashboard_04 = () => {
               onClick={handleMedicationsClick}
             >
               Medications
-            </Button>
+            </Button> */}
           </div>
         </div>
         <div>
-          {activeTab === "scanQR" && <ScanQR_04 className="pb-5" />}
-          {activeTab === "labTest" && <LabTest_04 className="pb-5" />}
-          {activeTab === "medications" && <Medications_04 className="pb-5" />}
+          {activeTab === "scanQR" && (
+            <ScanQR_04 className="pb-5" setScannedData={setScannedData} />
+          )}
+          {activeTab === "labTest" && (
+            <LabTest_04 className="pb-5" scannedData={scannedData} />
+          )}
+          {activeTab === "medications" && (
+            <Medications_04 className="pb-5" scannedData={scannedData} />
+          )}
         </div>
       </div>
     </div>

@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import dbConnection from "./dbConfig/dbConnection.js";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
+import patient from "./routes/IT22603418_Routes/PatientDetails.route_04.js";
+import patientHistory from "./routes/IT22603418_Routes/PatientHistory.route_04.js";
 
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -23,7 +25,8 @@ app.listen(3000, () => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
-
+app.use("/api/patient", patient);
+app.use("/api/patient-history", patientHistory);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

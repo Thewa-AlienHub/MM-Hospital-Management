@@ -103,14 +103,39 @@ export const getUsers = async (req, res, next) => {
 
 // get user details
 export const getUserDetails = async (req, res, next) => {
-   try {
-      const user = await User.findById(req.params.id);
-      if(!user){
-         return next(errorHandler(404, 'User not found'));
-      }
-      const {password: pass, ...rest} = user._doc;
-      res.status(200).json(rest);
-   } catch (error) {
-      next(error);
-   }
-}
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+    const { password: pass, ...rest } = user._doc;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// getCurrentUser
+export const getCurrentUser = async (req, res, next) => {
+  try {
+    // Retrieve user ID from the request object (assumed to be set by the authentication middleware)
+    const userId = req.user.id;
+
+    // Fetch user details from the database
+    const user = await User.findById(userId);
+
+    // If user is not found, return a 404 status
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Exclude sensitive information before sending the response
+    const { password, ...userDetails } = user._doc;
+
+    // Return user details
+    return res.status(200).json(userDetails);
+  } catch (error) {
+    // Call the next middleware to handle the error
+    next(error);
+  }
+};

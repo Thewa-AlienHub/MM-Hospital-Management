@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "flowbite-react";
 
-const LabTest_04 = () => {
+const LabTest_04 = ({ scannedData }) => {
   // Initialize an array to keep track of selected lab tests
   const [selectedTests, setSelectedTests] = useState([]);
 
