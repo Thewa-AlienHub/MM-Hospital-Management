@@ -18,20 +18,7 @@ const Home = () => {
     delaySpeed: 2000,
   })
 
-  useEffect(() => {
-    const fetchListings = async () => {
-      const res = await fetch(`/api/apartmentListing/getListings`);
-      const data = await res.json();
-      if (data.length > 8) {
-         setShowMore(true);
-      } else {
-         setShowMore(false);
-      }
-      setListings(data);
-   }
-
-   fetchListings();
-  }, [])
+  
 
   const onShowMoreClick = async () => {
     const numberOfListings = listings.length;

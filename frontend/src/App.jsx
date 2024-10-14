@@ -13,8 +13,9 @@ import ScrollToTop_02 from "./components/ScrollToTop_02";
 import Team from "./pages/Team";
 import Contact from "./pages/Contact";
 import SignInQR from "./pages/IT22602978_Pages/SignInQR_03";
-
-
+import GetReport from "./pages/IT22084668_Pages/GetReport"
+import LabAsistantDashboard from "./pages/IT22084668_Pages/LabAsistantDashboard";
+import ReportFind from "./pages/IT22084668_Pages/ReportFind"
 
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
            
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/lab-asist-dashboard" element={<LabAsistantDashboard />} />
+              <Route path="/get-report/:id" element={<GetReport />} />
+              <Route path="/report-find" element={<ReportFind />} />
         </Route>
       
            
