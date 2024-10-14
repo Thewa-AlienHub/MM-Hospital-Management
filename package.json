@@ -6,7 +6,12 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon backend/server.js",
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+
+    "test": "node --loader esm node_modules/mocha/bin/mocha ./backend/test/IT22084668_test/bloodPressureReport.test.js --timeout 10000 --exit"
+
+    "test": "jest --verbose"
+
   },
   "author": "syntaxsquad",
   "license": "ISC",
@@ -25,5 +30,24 @@
     "nodemon": "^3.1.7",
     "qrcode": "^1.5.3",
     "stripe": "^14.25.0"
+  },
+  "devDependencies": {
+
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/react-hooks": "^8.0.1",
+    "chai": "^5.1.1",
+    "chai-http": "^5.1.1",
+    "esm": "^3.2.25",
+    "jest": "^29.7.0",
+    "mocha": "^10.7.3",
+
+    "@babel/core": "^7.25.8",
+    "@babel/preset-env": "^7.25.8",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "mockingoose": "^2.16.2",
+
+    "supertest": "^7.0.0"
   }
 }

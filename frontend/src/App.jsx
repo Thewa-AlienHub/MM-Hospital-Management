@@ -12,10 +12,18 @@ import PrivateRoute from "./components/PrivateRoute";
 import ScrollToTop_02 from "./components/ScrollToTop_02";
 import Team from "./pages/Team";
 import Contact from "./pages/Contact";
-import SignInQR from "./pages/IT22602978_Pages/SignInQR_03";
+
 import Medications_04 from "./pages/IT22603418_Pages/Medications_04";
 import LabTest_04 from "./pages/IT22603418_Pages/LabTest_04";
 import Dashboard_04 from "./components/IT22603418_Components/Dashboard_04";
+
+import GetReport from "./pages/IT22084668_Pages/GetReport"
+import LabAsistantDashboard from "./pages/IT22084668_Pages/LabAsistantDashboard";
+import ReportFind from "./pages/IT22084668_Pages/ReportFind"
+import BookingHistory_03 from './pages/IT22602978_Pages/BookingHistory_03';
+
+
+
 
 function App() {
   return (
@@ -28,15 +36,21 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/booking" element={<BookingHistory_03/>} />
             <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-in-QR"element={<SignInQR/>}/>
+            
             <Route path="/sign-up" element={<SignUp />} />
            
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/lab-asist-dashboard" element={<LabAsistantDashboard />} />
+              <Route path="/get-report/:id" element={<GetReport />} />
+              <Route path="/report-find" element={<ReportFind />} />
         </Route>
       
+           {/* Thewan */}
            
+
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
             <Route

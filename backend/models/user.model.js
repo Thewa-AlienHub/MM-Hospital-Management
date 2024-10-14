@@ -65,10 +65,24 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
     isDoctor: {
       type: Boolean,
       default: false,
     },
+
+
+    isLabAsistant: {
+      type: Boolean,
+      default: false,
+    },
+
+    isPatient: {
+      type: Boolean,
+      default: false,
+    }
+
+
   },
   { timestamps: true }
 );

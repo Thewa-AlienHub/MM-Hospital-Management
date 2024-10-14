@@ -103,6 +103,7 @@ export const getUsers = async (req, res, next) => {
 
 // get user details
 export const getUserDetails = async (req, res, next) => {
+
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -139,3 +140,43 @@ export const getCurrentUser = async (req, res, next) => {
     next(error);
   }
 };
+
+   try {
+      const user = await User.findById(req.params.id);
+      if(!user){
+         return next(errorHandler(404, 'User not found'));
+      }
+      const {password: pass, ...rest} = user._doc;
+      res.status(200).json(rest);
+   } catch (error) {
+      next(error);
+   }
+}
+
+//update only isPatient
+export const updateIsPatient = async (req, res, next) => {
+   try {
+     // Check if the user making the request matches the user to be updated
+     if (req.user.id !== req.params.userId) {
+       return next(errorHandler(403, "You are not allowed to update this user"));
+     }
+ 
+     // Only update the isPatient field
+     const updatedUser = await User.findByIdAndUpdate(
+       req.params.userId,
+       { $set: { isPatient: req.body.isPatient } },
+       { new: true }
+     );
+ 
+     if (!updatedUser) {
+       return next(errorHandler(404, "User not found"));
+     }
+ 
+     // Send the updated user without returning the password
+     const { password, ...rest } = updatedUser._doc;
+     res.status(200).json(rest);
+   } catch (error) {
+     next(error);
+   }
+ };
+

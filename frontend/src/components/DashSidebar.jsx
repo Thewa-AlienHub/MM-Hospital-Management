@@ -10,6 +10,8 @@ import {
   HiUser,
   HiAnnotation,
   HiChartPie,
+  HiPlus,
+  HiOutlineCalendar,
 } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { signOutSuccess } from "../../redux/user/userSlice";
@@ -25,6 +27,7 @@ import { CiAlarmOn } from "react-icons/ci";
 import { MdAnnouncement } from "react-icons/md";
 import { CiGrid31 } from "react-icons/ci";
 import { FaCar } from "react-icons/fa";
+import { updateIsPatient } from './../../../backend/controllers/user.controller';
 
 
 
@@ -71,12 +74,15 @@ const DashSidebar = () => {
     <Sidebar className="w-full md:w-56 shadow-md">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
+
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               active={tab === "profile"}
               icon={HiUser}
               label={
-                currentUser.isAdmin
+                currentUser.isPatient && currentUser.isAdmin
+                  ? "Patient"
+                  : currentUser.isAdmin
                   ? "Admin"
                   : currentUser.isDoctor
                   ? "Doctor"
@@ -88,6 +94,7 @@ const DashSidebar = () => {
               Profile
             </Sidebar.Item>
           </Link>
+
 
           {currentUser.isDoctor && (
             <>
@@ -102,6 +109,41 @@ const DashSidebar = () => {
               </Link>
             </>
           )}
+
+          {currentUser && (
+          <>
+            <Link to="/dashboard?tab=patientprofile" onClick={toggleDropdown1}>
+              <Sidebar.Item
+                active={tab === "patientprofile"}
+                icon={HiOutlineUserCircle}
+                as="div"
+              >
+                Patient Profile
+              </Sidebar.Item>
+            </Link>
+
+            {showDropdown1 && (
+              <div className="dropdown">
+                <Link to="/dashboard?tab=addpatients">
+                  <Sidebar.Item active={tab === "addpatients"} as="div">
+                    Create Patient Profile
+                  </Sidebar.Item>
+                </Link>
+              </div>
+            )}
+            <Link to="/dashboard?tab=CreatePatientsBooking" >
+              <Sidebar.Item
+                active={tab === "CreatePatientsBooking"}
+                icon={HiOutlineCalendar}
+                as="div"
+              >
+                Add Appointment
+              </Sidebar.Item>
+            </Link>
+
+          </>
+           )}
+
 
           <Sidebar.Item
             icon={HiArrowSmRight}
