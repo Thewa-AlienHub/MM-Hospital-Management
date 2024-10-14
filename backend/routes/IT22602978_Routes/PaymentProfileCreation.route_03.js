@@ -14,5 +14,4 @@ router.delete('/deletepaymentprofile/:id',verifyToken,DeletePaymentProfile);
 
 
 
-
 export default router;

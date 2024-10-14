@@ -178,17 +178,7 @@ const DashProfile = () => {
           {loading ? <><Spinner size='sm'/><span className="pl-3">Loading...</span></> : 'Update'}
         </Button>
       </form>
-      {
-        !currentUser.isAdmin && (
-          <>
-            <Link to={'/create-apartmentListing'}>
-              <Button type='submit' gradientDuoTone="pinkToOrange" className='flex flex-col gap-4 w-full uppercase my-4'>
-                <FcHome className='mr-2 text-3xl bg-red-300 rounded-full p-1 border-2' />Sell or Rent Your Apartments
-              </Button>
-            </Link>
-          </>
-        )
-      }
+     
       {
         currentUser.isPropertyAdmin && (
           <>

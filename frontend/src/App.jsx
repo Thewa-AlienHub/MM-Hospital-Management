@@ -13,6 +13,7 @@ import ScrollToTop_02 from "./components/ScrollToTop_02";
 import Team from "./pages/Team";
 import Contact from "./pages/Contact";
 import SignInQR from "./pages/IT22602978_Pages/SignInQR_03";
+import GiveFeedback from "./components/IT22114044_Components/GiveFeedback";
 
 
 
@@ -42,6 +43,8 @@ function App() {
             {/* <Route path='/create_04' element={<RequestLeave_04/>}/>
               <Route path='/delete_04' element={<RequestDetails_04/>}/> */}
            
+
+           <Route path="/giveFeedback" element={<GiveFeedback />} />
             
           </Routes>
         </div>

@@ -4,10 +4,15 @@ import MMSite from '/MMSite.jpg'
 import { Link } from 'react-router-dom'
 import { Button } from 'flowbite-react'
 import { useEffect, useState } from 'react'
+import StarRatingComponent from 'react-star-rating-component'; // Assuming you fixed star rating lib
+import axios from 'axios';
 
 
 
 const Home = () => {
+  const [feedbacks, setFeedbacks] = useState([]);
+  const [error, setError] = useState(null);
+  const [averageRatings, setAverageRatings] = useState([]); // Define averageRatings as a state variable
   const [listings, setListings] = useState([]);
   const [showMore, setShowMore] = useState(false);
   const [text] = useTypewriter({
@@ -46,6 +51,55 @@ const Home = () => {
     }
     setListings([...listings, ...data]);
   }
+
+  
+
+  useEffect(() => {
+    const fetchFeedbacks = async () => {
+      try {
+        const res = await axios.get('/api/Feedbacks/GiveFeedback', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Ensure token is sent for verification
+          },
+        });
+        console.log('Feedbacks:', res.data); // Log data to inspect the response
+        setFeedbacks(res.data);
+        calculateAverageRatings(res.data); // Call average rating calculation after data is fetched
+      } catch (err) {
+        setError('Could not fetch feedbacks');
+        console.error(err);
+      }
+    };
+
+    const calculateAverageRatings = (data) => {
+      const ratingsMap = {};
+
+      data.forEach((feedback) => {
+        if (!ratingsMap[feedback.doctor]) {
+          ratingsMap[feedback.doctor] = {
+            totalRating: 0,
+            count: 0,
+          };
+        }
+        ratingsMap[feedback.doctor].totalRating += feedback.rating;
+        ratingsMap[feedback.doctor].count += 1;
+      });
+
+      const averages = Object.keys(ratingsMap).map((doctor) => ({
+        doctor,
+        averageRating: ratingsMap[doctor].totalRating / ratingsMap[doctor].count,
+      }));
+
+      setAverageRatings(averages); // Store the calculated average ratings
+    };
+
+    fetchFeedbacks(); // Fetch feedback when the component mounts
+  }, []);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // Formats the date as MM/DD/YYYY (or locale-specific format)
+  };
 
   return (
     <div>
@@ -106,6 +160,34 @@ const Home = () => {
           )}
         </div>
       </div>
+
+      <h1 className="text-center text-3xl font-bold mb-10">DOCTOR RATING</h1>
+      {error && <div className="text-red-500 mb-4">{error}</div>}
+      {!feedbacks.length && !error && <div>Loading feedbacks...</div>}
+
+      {/* Display average ratings */}
+      {averageRatings.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ml-10 text-center" style={{width:'50%' ,marginLeft:'25%'}}>
+          {averageRatings.map(({ doctor, averageRating }) => (
+            <div key={doctor} className="border rounded-lg p-4 shadow-md bg-blue-100 dark:bg-slate-700 mb-10">
+              <h2 className="text-xl font-bold mb-2">{doctor}</h2>
+              <hr style={{color:'black'}}></hr>
+              <hr style={{color:'black'}}></hr>
+              <h5><b>5+ Experience</b></h5>
+              <div className="flex items-center mb-2 ml-10" style={{fontSize:'28px'}}>
+                <StarRatingComponent
+                  name="doctorRating"
+                  starCount={5}
+                  value={averageRating}
+                  editing={false} // Disable editing, it's just for display
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+
     </div>
   )
 }
