@@ -9,44 +9,45 @@ import { useEffect, useState } from "react";
 import MM from '/logonew.png'
 
 const Header = () => {
-    const path = useLocation().pathname
-    const dispatch = useDispatch()
-    const navigate = useNavigate();
-    const {currentUser} = useSelector(state => state.user)
-    const {theme} = useSelector(state => state.theme)
-    const [searchTerm, setSearchTerm] = useState('');
+   const path = useLocation().pathname;
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const { currentUser } = useSelector((state) => state.user);
+   const { theme } = useSelector((state) => state.theme);
+   const [searchTerm, setSearchTerm] = useState('');
 
    const handleSignout = async () => {
-      try {
-        const res = await fetch('/api/user/signout', {
-          method: 'POST'
-        })
-        const data = await res.json()
-        if(!res.ok) {
-          console.log(data.message);
-        } else {
-          dispatch(signOutSuccess())
-        }
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
+       try {
+           const res = await fetch('/api/user/signout', {
+               method: 'POST',
+           });
+           const data = await res.json();
+           if (!res.ok) {
+               console.log(data.message);
+           } else {
+               dispatch(signOutSuccess());
+           }
+       } catch (error) {
+           console.log(error.message);
+       }
+   };
 
    const handleSubmit = (e) => {
-      e.preventDefault();
-      const urlParams = new URLSearchParams(window.location.search);
-      urlParams.set('searchTerm', searchTerm);
-      const searchQuery = urlParams.toString();
-      navigate(`/searchApartments?${searchQuery}`);
-   }
+       e.preventDefault();
+       const urlParams = new URLSearchParams(window.location.search);
+       urlParams.set('searchTerm', searchTerm);
+       const searchQuery = urlParams.toString();
+       navigate(`/searchApartments?${searchQuery}`);
+   };
 
    useEffect(() => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const searchTermFromUrl = urlParams.get('searchTerm');
-      if(searchTermFromUrl) {
-         setSearchTerm(searchTermFromUrl);
-      }
-   }, [location.search])
+       const urlParams = new URLSearchParams(window.location.search);
+       const searchTermFromUrl = urlParams.get('searchTerm');
+       if (searchTermFromUrl) {
+           setSearchTerm(searchTermFromUrl);
+       }
+   }, [location.search]);
+
 
   return (
     <Navbar className="border-b-1 sticky top-0 bg-blue-800 shadow-md z-20 rounded-[20px] mt-4 mx-10">
@@ -134,9 +135,93 @@ const Header = () => {
             </Navbar.Link>
             
 
-         </Navbar.Collapse>
-    </Navbar>
-  )
-}
+                        <Navbar.Collapse>
+               {currentUser && currentUser.isLabAsistant ? (
+                   // If the user is a lab assistant, show these links
+                   <>
 
-export default Header
+                       <Navbar.Link active={path === '/'} as={'div'}>
+                           <Link
+                               to="/"
+                               className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200"
+                           >
+                               Home
+                           </Link>
+                       </Navbar.Link>
+                       <Navbar.Link active={path === '/'} as={'div'}>
+                           <Link
+                               to="/lab-asist-dashboard"
+                               className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200"
+                           >
+                               Lab Dashboard
+                           </Link>
+                       </Navbar.Link>
+                       <Navbar.Link active={path === '/lab-reports'} as={'div'}>
+                           <Link
+                               to="/report-find"
+                               className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200"
+                           >
+                               Lab Reports
+                           </Link>
+                       </Navbar.Link>
+                       <Navbar.Link active={path === '/lab-reports'} as={'div'}>
+                           <Link
+                               to="/report-find"
+                               className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200"
+                           >
+                               Scan QR
+                           </Link>
+                       </Navbar.Link>
+                   </>
+               ) : (
+                   // If the user is not a lab assistant, show regular links
+                   <>
+                       <Navbar.Link active={path === '/'} as={'div'}>
+                           <Link
+                               to="/"
+                               className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200"
+                           >
+                               Home
+                           </Link>
+                       </Navbar.Link>
+                       <Navbar.Link active={path === '/service-User:serviceID'} as={'div'}>
+                           <Link
+                               to="/service-User:serviceID"
+                               className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200"
+                           >
+                               Services
+                           </Link>
+                       </Navbar.Link>
+                       <Navbar.Link active={path === '/about'} as={'div'}>
+                           <Link
+                               to="/about"
+                               className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200"
+                           >
+                               About
+                           </Link>
+                       </Navbar.Link>
+                       <Navbar.Link active={path === '/team'} as={'div'}>
+                           <Link
+                               to="/team"
+                               className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200"
+                           >
+                               Our Team
+                           </Link>
+                       </Navbar.Link>
+                       <Navbar.Link active={path === '/contact'} as={'div'}>
+                           <Link
+                               to="/contact"
+                               className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200"
+                           >
+                               Contact Us
+                           </Link>
+                       </Navbar.Link>
+                   </>
+               )}
+           </Navbar.Collapse>
+       </Navbar>
+   );
+};
+
+export default Header;
+

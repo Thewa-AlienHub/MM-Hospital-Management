@@ -68,6 +68,7 @@ export const signIn = async (req, res, next) => {
         isFacilityAdmin: validUser.isFacilityAdmin,
         isFacilityServiceAdmin: validUser.isFacilityServiceAdmin,
         isStaff: validUser.isStaff,
+        isLabAsistant: validUser.isLabAsistant,
       },
       process.env.JWT_SECRET
     );
@@ -90,7 +91,7 @@ export const google = async (req, res, next) => {
    try {
       const user = await User.findOne({ email });
       if(user) {
-         const token = jwt.sign({ id: user._id, Username:user.username,isAdmin: user.isAdmin, isUserAdmin: user.isUserAdmin, isPropertyAdmin: user.isPropertyAdmin, isVisitorAdmin: user.isVisitorAdmin, isAnnouncementAdmin: user.isAnnouncementAdmin, isBookingAdmin: user.isBookingAdmin, isStaffAdmin: user.isStaffAdmin, isBillingAdmin: user.isBillingAdmin, isFacilityAdmin: user.isFacilityAdmin, isFacilityServiceAdmin: user.isFacilityServiceAdmin }, process.env.JWT_SECRET);
+         const token = jwt.sign({ id: user._id, Username:user.username,isAdmin: user.isAdmin, isUserAdmin: user.isUserAdmin, isPropertyAdmin: user.isPropertyAdmin, isVisitorAdmin: user.isVisitorAdmin, isAnnouncementAdmin: user.isAnnouncementAdmin, isBookingAdmin: user.isBookingAdmin, isStaffAdmin: user.isStaffAdmin, isBillingAdmin: user.isBillingAdmin, isFacilityAdmin: user.isFacilityAdmin, isFacilityServiceAdmin: user.isFacilityServiceAdmin,isLabAsistant:user.isLabAsistant }, process.env.JWT_SECRET);
          const { password, ...rest } = user._doc;
          res.status(200).cookie('access_token', token, {
             httpOnly: true,
@@ -105,7 +106,7 @@ export const google = async (req, res, next) => {
             profilePicture: googlePhotoURL,
          });
          await newUser.save();
-         const token = jwt.sign({ id: newUser._id, Username:newUser.username,isAdmin: newUser.isAdmin, isUserAdmin: newUser.isUserAdmin, isPropertyAdmin: newUser.isPropertyAdmin, isVisitorAdmin: newUser.isVisitorAdmin, isAnnouncementAdmin: newUser.isAnnouncementAdmin, isBookingAdmin: newUser.isBookingAdmin, isStaffAdmin: newUser.isStaffAdmin, isBillingAdmin: newUser.isBillingAdmin, isFacilityAdmin: newUser.isFacilityAdmin, isFacilityServiceAdmin: newUser.isFacilityServiceAdmin }, process.env.JWT_SECRET);
+         const token = jwt.sign({ id: newUser._id, Username:newUser.username,isAdmin: newUser.isAdmin, isUserAdmin: newUser.isUserAdmin, isPropertyAdmin: newUser.isPropertyAdmin, isVisitorAdmin: newUser.isVisitorAdmin, isAnnouncementAdmin: newUser.isAnnouncementAdmin, isBookingAdmin: newUser.isBookingAdmin, isStaffAdmin: newUser.isStaffAdmin, isBillingAdmin: newUser.isBillingAdmin, isFacilityAdmin: newUser.isFacilityAdmin, isFacilityServiceAdmin: newUser.isFacilityServiceAdmin,isLabAsistant:newUser.isLabAsistant }, process.env.JWT_SECRET);
          const { password, ...rest } = newUser._doc;
          res.status(200).cookie('access_token', token, {
             httpOnly: true,
@@ -122,7 +123,7 @@ export const signInQR = async (req, res, next) => {
    try {
       const user = await User.findOne({ email });
       
-         const token = jwt.sign({ id: user._id, Username:user.username,isAdmin: user.isAdmin, isUserAdmin: user.isUserAdmin, isPropertyAdmin: user.isPropertyAdmin, isVisitorAdmin: user.isVisitorAdmin, isAnnouncementAdmin: user.isAnnouncementAdmin, isBookingAdmin: user.isBookingAdmin, isStaffAdmin: user.isStaffAdmin, isBillingAdmin: user.isBillingAdmin, isFacilityAdmin: user.isFacilityAdmin, isFacilityServiceAdmin: user.isFacilityServiceAdmin }, process.env.JWT_SECRET);
+         const token = jwt.sign({ id: user._id, Username:user.username,isAdmin: user.isAdmin, isUserAdmin: user.isUserAdmin, isPropertyAdmin: user.isPropertyAdmin, isVisitorAdmin: user.isVisitorAdmin, isAnnouncementAdmin: user.isAnnouncementAdmin, isBookingAdmin: user.isBookingAdmin, isStaffAdmin: user.isStaffAdmin, isBillingAdmin: user.isBillingAdmin, isFacilityAdmin: user.isFacilityAdmin, isFacilityServiceAdmin: user.isFacilityServiceAdmin,isLabAsistant:user.isLabAsistant }, process.env.JWT_SECRET);
          const { password, ...rest } = user._doc;
          res.status(200).cookie('access_token', token, {
             httpOnly: true,

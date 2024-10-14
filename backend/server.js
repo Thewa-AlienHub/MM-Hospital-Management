@@ -3,9 +3,14 @@ import dotenv from "dotenv";
 import dbConnection from "./dbConfig/dbConnection.js";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
+import testRoutes from './routes/IT22084668_Routes/TestRequest.route.js';
+import bloodReportRoutes from './routes/IT22084668_Routes/BloodReport.Route.js'
+import bloodpressureReportRoutes from './routes/IT22084668_Routes/BloodPreessureReport.Route.js'
+import cholesterolReportRoutes from './routes/IT22084668_Routes/CholesterolReport.Route.js'
+import angiographyReportRoutes from './routes/IT22084668_Routes/AngiographyReport.route.js'
+import urinalReportRoute from './routes/IT22084668_Routes/UrinalReport.Route.js'
 import patientProfileRoutes from "./routes/IT22602978_Routes/PatientsProfileCreation.route_03.js";
 import patientBookingRoutes from "./routes/IT22602978_Routes/PatientsBookingHandling.route_03.js";
-
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -27,6 +32,15 @@ const startApp = async () => {
     app.use("/api/auth", authRoutes);
     app.use("/api/PatientProfile", patientProfileRoutes);
     app.use("/api/PatientBooking", patientBookingRoutes);
+    app.use("/api/user", userRoutes);
+    app.use("/api/auth", authRoutes);
+    app.use("/api/test", testRoutes);
+    app.use("/api/bloodreport", bloodReportRoutes);
+    app.use("/api/bloodpressurereport", bloodpressureReportRoutes);
+    app.use("/api/cholesterolreport", cholesterolReportRoutes);
+    app.use("/api/angiographyreport", angiographyReportRoutes);
+    app.use("/api/urinalreport", urinalReportRoute);
+
 
     // Start the server
     app.listen(3000, () => {
@@ -38,7 +52,7 @@ const startApp = async () => {
   }
 };
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
@@ -49,5 +63,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start the application
+
 startApp();
+
