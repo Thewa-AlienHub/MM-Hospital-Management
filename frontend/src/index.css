@@ -10,6 +10,15 @@ body {
    text-shadow: 2px 2px 2px #222;
 }
 
+.hide-scrollbar {
+   overflow: auto; /* Enable scrolling */
+   scrollbar-width: none; /* For Firefox */
+ }
+ 
+ .hide-scrollbar::-webkit-scrollbar {
+   display: none; /* For Chrome, Safari, and Opera */
+ }
+
 .imgBx {
    position: absolute;
    width: 80px;

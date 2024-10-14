@@ -84,12 +84,8 @@ const Header = () => {
                   <Button gradientDuoTone='purpleToBlue' outline>
                      Sign In
                   </Button>
-               </Link>,
-               <Button gradientDuoTone='purpleToBlue' outline >
-               <Link to='/sign-in-QR'>
-                    QR payments
                </Link>
-               </Button>
+               
 
                </div>
               
@@ -115,6 +111,9 @@ const Header = () => {
             {
                currentUser && (
                   <>
+                  <Navbar.Link active={path === '/booking'} as={'div'}>
+                      <Link to='/booking' className="hover:text-blue-300 active:text-blue-600 hover:underline text-blue-200">Doctor Booking</Link>
+               </Navbar.Link>
                   
                      
                   </>

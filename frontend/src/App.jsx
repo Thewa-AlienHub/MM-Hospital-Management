@@ -12,7 +12,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import ScrollToTop_02 from "./components/ScrollToTop_02";
 import Team from "./pages/Team";
 import Contact from "./pages/Contact";
-import SignInQR from "./pages/IT22602978_Pages/SignInQR_03";
+
+import BookingHistory_03 from './pages/IT22602978_Pages/BookingHistory_03';
 
 
 
@@ -28,15 +29,18 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/booking" element={<BookingHistory_03/>} />
             <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-in-QR"element={<SignInQR/>}/>
+            
             <Route path="/sign-up" element={<SignUp />} />
            
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       
+           {/* Thewan */}
            
+
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
             {/* <Route path='/create_04' element={<RequestLeave_04/>}/>
