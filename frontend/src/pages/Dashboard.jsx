@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import DashSidebar from "../components/DashSidebar";
 import DashProfile from "../components/DashProfile";
 import DashUsers from "../components/DashUsers";
+import Dashboard_04 from "../components/IT22603418_Components/Dashboard_04";
 import AddPatientProfile_03 from './IT22602978_Pages/AddPatientProfile_03';
 import Patientprofile_03 from './IT22602978_Pages/PatientProfile_03';
 import CreatePatientBooking from "./IT22602978_Pages/CreatePatientsBooking_03";
@@ -30,6 +31,10 @@ const Dashboard = () => {
       {tab === "users" && <DashUsers />}
       {/* payments */}
       {tab === "payments" && <DashPayments_03 />}
+
+      {/* ScanQR */}
+      {tab === "Dashboard_04" && <Dashboard_04 />}
+
 
        {/* add patients */}
        {tab === "addpatients" && <AddPatientProfile_03 />}

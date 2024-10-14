@@ -74,7 +74,7 @@ const DashSidebar = () => {
     <Sidebar className="w-full md:w-56 shadow-md">
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
-          
+
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               active={tab === "profile"}
@@ -84,8 +84,8 @@ const DashSidebar = () => {
                   ? "Patient"
                   : currentUser.isAdmin
                   ? "Admin"
-                  : currentUser.isStaff
-                  ? "Staff"
+                  : currentUser.isDoctor
+                  ? "Doctor"
                   : "User"
               }
               labelColor="dark"
@@ -94,6 +94,22 @@ const DashSidebar = () => {
               Profile
             </Sidebar.Item>
           </Link>
+
+
+          {currentUser.isDoctor && (
+            <>
+              <Link to="/dashboard?tab=Dashboard_04">
+                <Sidebar.Item
+                  active={tab === "Dashboard_04"}
+                  icon={IoChatbubbleEllipses}
+                  as="div"
+                >
+                  Dashboard
+                </Sidebar.Item>
+              </Link>
+            </>
+          )}
+
           {currentUser && (
           <>
             <Link to="/dashboard?tab=patientprofile" onClick={toggleDropdown1}>

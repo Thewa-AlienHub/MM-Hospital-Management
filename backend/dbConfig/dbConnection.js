@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 
 class Database {
@@ -31,4 +32,5 @@ class Database {
 
 // Export the singleton instance
 const dbConnection = new Database();
+
 export default dbConnection;

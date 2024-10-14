@@ -12,10 +12,16 @@ import PrivateRoute from "./components/PrivateRoute";
 import ScrollToTop_02 from "./components/ScrollToTop_02";
 import Team from "./pages/Team";
 import Contact from "./pages/Contact";
+
+import Medications_04 from "./pages/IT22603418_Pages/Medications_04";
+import LabTest_04 from "./pages/IT22603418_Pages/LabTest_04";
+import Dashboard_04 from "./components/IT22603418_Components/Dashboard_04";
+
 import GetReport from "./pages/IT22084668_Pages/GetReport"
 import LabAsistantDashboard from "./pages/IT22084668_Pages/LabAsistantDashboard";
 import ReportFind from "./pages/IT22084668_Pages/ReportFind"
 import BookingHistory_03 from './pages/IT22602978_Pages/BookingHistory_03';
+
 
 
 
@@ -47,10 +53,12 @@ function App() {
 
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
-            {/* <Route path='/create_04' element={<RequestLeave_04/>}/>
-              <Route path='/delete_04' element={<RequestDetails_04/>}/> */}
-           
-            
+            <Route
+              path="/medications/:patientId"
+              element={<Medications_04 />}
+            />
+            <Route path="/lab-tests/:patientId" element={<LabTest_04 />} />
+            <Route path="/scanQR_04" element={<Dashboard_04 />} />
           </Routes>
         </div>
 

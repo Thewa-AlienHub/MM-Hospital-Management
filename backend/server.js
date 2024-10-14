@@ -3,6 +3,14 @@ import dotenv from "dotenv";
 import dbConnection from "./dbConfig/dbConnection.js";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
+
+import patient from "./routes/IT22603418_Routes/PatientDetails.route_04.js";
+import patientHistory from "./routes/IT22603418_Routes/PatientHistory.route_04.js";
+import labTest from "./routes/IT22603418_Routes/labTest.route_04.js";
+import testRequestsObserver from "./models/IT22603418_Models/TestRequestsObserver.js";
+import TestRequestsUpdate from "./controllers/IT22603418_Controllers/TestRequestsObserverImpl.js";
+
+
 import testRoutes from './routes/IT22084668_Routes/TestRequest.route.js';
 import bloodReportRoutes from './routes/IT22084668_Routes/BloodReport.Route.js'
 import bloodpressureReportRoutes from './routes/IT22084668_Routes/BloodPreessureReport.Route.js'
@@ -11,6 +19,7 @@ import angiographyReportRoutes from './routes/IT22084668_Routes/AngiographyRepor
 import urinalReportRoute from './routes/IT22084668_Routes/UrinalReport.Route.js'
 import patientProfileRoutes from "./routes/IT22602978_Routes/PatientsProfileCreation.route_03.js";
 import patientBookingRoutes from "./routes/IT22602978_Routes/PatientsBookingHandling.route_03.js";
+
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -41,6 +50,13 @@ const startApp = async () => {
     app.use("/api/angiographyreport", angiographyReportRoutes);
     app.use("/api/urinalreport", urinalReportRoute);
 
+
+
+app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/patient", patient);
+app.use("/api/patient-history", patientHistory);
+app.use("/api/labTests", labTest);
 
     // Start the server
     app.listen(3000, () => {

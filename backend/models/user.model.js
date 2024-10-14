@@ -66,6 +66,12 @@ const UserSchema = new mongoose.Schema(
       default: false,
     },
 
+    isDoctor: {
+      type: Boolean,
+      default: false,
+    },
+
+
     isLabAsistant: {
       type: Boolean,
       default: false,
@@ -75,6 +81,7 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     }
+
 
   },
   { timestamps: true }
