@@ -5,6 +5,9 @@ import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
 import patient from "./routes/IT22603418_Routes/PatientDetails.route_04.js";
 import patientHistory from "./routes/IT22603418_Routes/PatientHistory.route_04.js";
+import labTest from "./routes/IT22603418_Routes/labTest.route_04.js";
+import testRequestsObserver from "./models/IT22603418_Models/TestRequestsObserver.js";
+import TestRequestsUpdate from "./controllers/IT22603418_Controllers/TestRequestsObserverImpl.js";
 
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -27,6 +30,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/patient", patient);
 app.use("/api/patient-history", patientHistory);
+app.use("/api/labTests", labTest);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

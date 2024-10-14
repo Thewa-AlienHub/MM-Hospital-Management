@@ -14,6 +14,8 @@ import Team from "./pages/Team";
 import Contact from "./pages/Contact";
 import SignInQR from "./pages/IT22602978_Pages/SignInQR_03";
 import Medications_04 from "./pages/IT22603418_Pages/Medications_04";
+import LabTest_04 from "./pages/IT22603418_Pages/LabTest_04";
+import Dashboard_04 from "./components/IT22603418_Components/Dashboard_04";
 
 function App() {
   return (
@@ -37,7 +39,12 @@ function App() {
            
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="medications/:patientId" element={<Medications_04 />} />
+            <Route
+              path="/medications/:patientId"
+              element={<Medications_04 />}
+            />
+            <Route path="/lab-tests/:patientId" element={<LabTest_04 />} />
+            <Route path="/scanQR_04" element={<Dashboard_04 />} />
           </Routes>
         </div>
 

@@ -18,6 +18,10 @@ const ScanQR_04 = ({ setScannedData }) => {
   const [loading, setLoading] = useState(true);
   const { currentUser } = useSelector((state) => state.user);
 
+  useEffect(() => {
+    console.log("setScannedData prop:", setScannedData);
+  }, []);
+
   const handleScan = async (decodedText) => {
     if (decodedText) {
       console.log("QR Code scanned:", decodedText);
@@ -151,6 +155,22 @@ const ScanQR_04 = ({ setScannedData }) => {
     });
   };
 
+  const handleNavigateToLabTests = () => {
+    const patientId = scannedId;
+    if (loading || !currentUser || !currentUser._id || !patientId) {
+      console.error("Error navigating to lab tests.");
+      return;
+    }
+
+    navigate(`/lab-tests/${patientId}`, {
+      state: {
+        patientId,
+        doctorId: currentUser._id,
+        scannedData,
+      },
+    });
+  };
+
   const renderSection = (title, data) => (
     <div className="mb-2 bg-blue-100 rounded-3xl pt-2 px-3">
       <h4 className="text-md font-bold">{title}</h4>
@@ -216,7 +236,13 @@ const ScanQR_04 = ({ setScannedData }) => {
             onClick={handleNavigateToMedications}
             className="mt-4 w-full bg-green-500 rounded-full"
           >
-            Add Medical Condition Details
+            Add Medical Condition
+          </Button>
+          <Button
+            onClick={handleNavigateToLabTests}
+            className="mt-4 w-full bg-yellow-500 rounded-full"
+          >
+            Take Lab Tests
           </Button>
         </div>
       )}

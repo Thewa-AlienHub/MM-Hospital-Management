@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Button, Select, TextInput } from "flowbite-react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Medications_04 = ({ loggedInUser }) => {
-  const { patientId } = useParams();
+  // const { patientId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const { currentUser, error, loading } = useSelector((state) => state.user);
   const [medications, setMedications] = useState([]);
   const [selectedMedication, setSelectedMedication] = useState("");
   const [selectedDosage, setSelectedDosage] = useState("");
   const [selectedFrequency, setSelectedFrequency] = useState("");
   const [illness, setIllness] = useState("");
+  const { patientId } = location.state || {};
 
   // State for patient's name
   const [patientName, setPatientName] = useState("");
@@ -133,6 +135,21 @@ const Medications_04 = ({ loggedInUser }) => {
     }
   };
 
+  // Handler for navigating to LabTest_04
+  const handleLabTest = () => {
+    navigate(`/lab-tests/${patientId}`, {
+      state: { patientId, doctorId: currentUser._id },
+    });
+  };
+
+  // Handler for closing the channel and clearing patient details
+  const handleCloseChannel = () => {
+    setMedications([]);
+    setIllness("");
+    setPatientName("");
+    navigate(`/scanQR_04`); // Navigates to the ScanQR screen
+  };
+
   return (
     <div className="bg-white rounded-3xl shadow-md max-w-lg mx-auto p-3 w-full mt-5">
       <h2 className="text-xl font-bold mb-4 text-center">
@@ -223,6 +240,20 @@ const Medications_04 = ({ loggedInUser }) => {
       >
         Submit Patient History
       </Button>
+      <div className="flex gap-2 mt-4">
+        <Button
+          onClick={handleLabTest}
+          className="bg-blue-500 rounded-full w-full"
+        >
+          Take Lab Test
+        </Button>
+        <Button
+          onClick={handleCloseChannel}
+          className="bg-red-500 rounded-full w-full"
+        >
+          Close Channel
+        </Button>
+      </div>
     </div>
   );
 };
