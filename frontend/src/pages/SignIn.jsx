@@ -21,39 +21,38 @@ const SignIn = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    if(!formData.email || !formData.password) {
-      // return setErrorMessage('Please fill out all the fields')
-      return dispatch(signInFailure('Please fill out all the fields'))
+    e.preventDefault();
+    if (!formData.email || !formData.password) {
+      return dispatch(signInFailure('Please fill out all the fields'));
     }
     try {
-      // setLoading(true)
-      // setErrorMessage(null)
-      dispatch(signInStart())
+      dispatch(signInStart());
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
-      })
-      const data = await res.json()
-      if(data.success === false) {
-        // return setErrorMessage(data.message)
-        dispatch(signInFailure(data.message))
-      }
-      // setLoading(false);
-      if(res.ok) {
-        dispatch(signInSuccess(data))
-        navigate('/')
-        toast.success("User logged in successfully")
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+  console.log(data.isLabAsistant);
+  
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
+      } else {
+        dispatch(signInSuccess(data));
+        if (data.isLabAsistant) {
+          navigate('/lab-asist-dashboard');
+        } else {
+          navigate('/');
+        }
+        toast.success('User logged in successfully');
       }
     } catch (error) {
-      dispatch(signInFailure(error.message))
-      // setErrorMessage(error.message)
-      // setLoading(false)
+      dispatch(signInFailure(error.message));
     }
-  }
+  };
+  
   
   return (
     <div className="min-h-screen mt-20">
